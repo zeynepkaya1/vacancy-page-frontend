@@ -32,5 +32,33 @@ export const useVacancyStore = defineStore("vacancy", {
         console.error("Error creating vacancy:", error);
       }
     },
+
+    async updateVacancy(uuid: string, updatedData: Partial<Vacancy>) {
+      try {
+        const response = await axios.patch(
+          `http://localhost:3000/vacancies/${uuid}`,
+          updatedData
+        );
+        const index = this.vacancies.findIndex(
+          (vacancy) => vacancy.uuid === uuid
+        );
+        if (index !== -1) {
+          this.vacancies[index] = response.data;
+        }
+      } catch (error) {
+        console.error("Error updating vacancy:", error);
+      }
+    },
+
+    async deleteVacancy(uuid: string) {
+      try {
+        await axios.delete(`http://localhost:3000/vacancies/${uuid}`);
+        this.vacancies = this.vacancies.filter(
+          (vacancy) => vacancy.uuid !== uuid
+        );
+      } catch (error) {
+        console.error("Error deleting vacancy:", error);
+      }
+    },
   },
 });

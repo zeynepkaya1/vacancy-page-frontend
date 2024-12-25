@@ -34,7 +34,7 @@
       <div
         v-for="vacancy in sortedVacancies"
         :key="vacancy.uuid"
-        class="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-all"
+        class="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-all relative"
       >
         <h3 class="text-3xl font-semibold">{{ vacancy.title }}</h3>
         <p class="text-xl text-gray-600">{{ vacancy.company }}</p>
@@ -57,18 +57,39 @@
             </p>
           </div>
         </div>
+
+        <!-- Edit Button -->
+        <button
+          @click="openEditModal(vacancy)"
+          class="btn bg-blue-600 text-white absolute top-2 right-2 px-3 py-2"
+        >
+          Edit
+        </button>
       </div>
     </div>
+
+    <!-- Edit Vacancy Modal -->
+    <EditVacancyModal
+      v-if="isEditModalOpen"
+      :vacancy="selectedVacancy"
+      @close="closeEditModal"
+      @submit="updateVacancy"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useVacancyStore } from "../stores/vacancyStore";
+import EditVacancyModal from "./EditVacancyModal.vue";
 
 // Sorting state
 const sortField = ref(null);
 const sortOrder = ref("asc"); // 'asc' or 'desc'
+
+// Modal state
+const isEditModalOpen = ref(false); // Modal visibility state
+const selectedVacancy = ref(null); // The vacnacy selected for editing
 
 // Pinia store
 const vacancyStore = useVacancyStore();
@@ -110,4 +131,21 @@ const formatDate = (date) => {
 
 // Fetch vacancies on component mount
 onMounted(fetchVacancies);
+
+// Open edit modal and populate with the selected vacancy data
+const openEditModal = (vacancy) => {
+  selectedVacancy.value = { ...vacancy }; // Create a copy to avoid mutating the original data
+  isEditModalOpen.value = true;
+};
+
+// Close the modal
+const closeEditModal = () => {
+  isEditModalOpen.value = false;
+};
+
+// Submit the update vacancy form
+const updateVacancy = ({ uuid, updatedData }) => {
+  vacancyStore.updateVacancy(uuid, updatedData);
+  closeEditModal(); // Close the modal after submission
+};
 </script>
