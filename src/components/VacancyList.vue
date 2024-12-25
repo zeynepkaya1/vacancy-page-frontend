@@ -22,12 +22,10 @@
         </button>
       </div>
       <div>
-        <button
-          @click="showCreateForm = !showCreateForm"
-          class="btn bg-orange-700"
-        >
-          Create Vacancy
-        </button>
+        <!-- Navigate to Create Vacancy -->
+        <router-link to="/create-vacancy">
+          <button class="btn bg-orange-700">Create Vacancy</button>
+        </router-link>
       </div>
     </div>
 
