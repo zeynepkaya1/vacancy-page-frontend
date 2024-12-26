@@ -49,6 +49,14 @@
         >
           Edit
         </button>
+
+        <!-- Find Vacancies Button -->
+        <button
+          @click="findVacanciesForCandidate(candidate)"
+          class="btn bg-green-600 text-white absolute top-2 right-20 px-3 py-2"
+        >
+          Find Jobs for You
+        </button>
       </div>
     </div>
 
@@ -59,27 +67,42 @@
       @close="closeEditModal"
       @submit="updateCandidate"
     />
+
+    <!-- Find Vacancies Modal -->
+    <FindVacanciesModal
+      v-if="isVacanciesModalOpen"
+      :vacancies="vacancies"
+      @close="closeVacanciesModal"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useCandidateStore } from "../../stores/candidateStore";
+import { useVacancyStore } from "../../stores/vacancyStore";
 import EditCandidateModal from "./EditCandidateModal.vue";
+import FindVacanciesModal from "./FindVacanciesModal.vue";
 
 // Modal state
 const isEditModalOpen = ref(false); // Modal visibility state
+const isVacanciesModalOpen = ref(false);
 const selectedCandidate = ref(null); // The candidate selected for editing
+const vacancies = ref([]);
 
 // Pinia store
 const candidateStore = useCandidateStore();
+const vacancyStore = useVacancyStore();
 
 // Bind the store's candidates to a computed property
 const candidates = computed(() => candidateStore.candidates);
 
-// Fetch candidates from the Pinia store
+// Fetch candidates and vacancies from the Pinia store
 const fetchCandidates = async () => {
   await candidateStore.fetchCandidates();
+};
+const fetchVacancies = async () => {
+  await vacancyStore.fetchVacancies();
 };
 
 // Format date
@@ -87,8 +110,11 @@ const formatDate = (date) => {
   return new Date(date).toLocaleDateString();
 };
 
-// Fetch candidates on component mount
-onMounted(fetchCandidates);
+// Fetch candidates and vacancies on component mount
+onMounted(() => {
+  fetchCandidates();
+  fetchVacancies();
+});
 
 // Open edit modal and populate with the selected candidate data
 const openEditModal = (candidate) => {
@@ -105,5 +131,17 @@ const closeEditModal = () => {
 const updateCandidate = ({ id, updatedData }) => {
   candidateStore.updateCandidate(id, updatedData);
   closeEditModal(); // Close the modal after submission
+};
+
+// Open Find Vacancies modal and fetch matched vacancies
+const findVacanciesForCandidate = async (candidate) => {
+  const response = await vacancyStore.findVacanciesForCandidate(candidate.id);
+  vacancies.value = response;
+  isVacanciesModalOpen.value = true;
+};
+
+// Close the Find Vacancies modal
+const closeVacanciesModal = () => {
+  isVacanciesModalOpen.value = false;
 };
 </script>

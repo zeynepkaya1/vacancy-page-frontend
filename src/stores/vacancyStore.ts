@@ -60,5 +60,17 @@ export const useVacancyStore = defineStore("vacancy", {
         console.error("Error deleting vacancy:", error);
       }
     },
+
+    async findVacanciesForCandidate(id: string) {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/vacancies/match/${id}`
+        );
+        return response.data; // Return the list of matched vacancies
+      } catch (error) {
+        console.error("Error finding vacancies for candidate:", error);
+        return []; // Return an empty array if there was an error
+      }
+    },
   },
 });
