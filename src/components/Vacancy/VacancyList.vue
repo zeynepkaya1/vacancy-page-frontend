@@ -80,7 +80,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import { useVacancyStore } from "../stores/vacancyStore";
+import { useVacancyStore } from "../../stores/vacancyStore";
 import EditVacancyModal from "./EditVacancyModal.vue";
 
 // Sorting state

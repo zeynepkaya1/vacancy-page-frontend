@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
-import VacancyList from "../components/VacancyList.vue";
-import CreateVacancy from "../components/CreateVacancyForm.vue";
+import VacancyList from "../components/Vacancy/VacancyList.vue";
+import CreateVacancy from "../components//Vacancy/CreateVacancyForm.vue";
+import CandidateList from "../components/Candidate/CandidateList.vue";
+import CreateCandidate from "../components/Candidate/CreateCandidateForm.vue";
 
 const routes = [
   {
@@ -12,6 +14,16 @@ const routes = [
     path: "/create-vacancy",
     name: "create-vacancy",
     component: CreateVacancy,
+  },
+  {
+    path: "/candidates",
+    name: "Candidates",
+    component: CandidateList,
+  },
+  {
+    path: "/create-candidate",
+    name: "create-candidate",
+    component: CreateCandidate,
   },
 ];
 

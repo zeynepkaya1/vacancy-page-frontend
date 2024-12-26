@@ -103,7 +103,7 @@
 import { ref } from "vue";
 import { z } from "zod";
 import { useRouter } from "vue-router";
-import { useVacancyStore } from "../stores/vacancyStore";
+import { useVacancyStore } from "../../stores/vacancyStore";
 
 // Form data and error state
 const formData = ref({

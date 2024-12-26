@@ -77,7 +77,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { useVacancyStore } from "../stores/vacancyStore";
+import { useVacancyStore } from "../../stores/vacancyStore";
 
 // Define props that passed here
 const props = defineProps({
