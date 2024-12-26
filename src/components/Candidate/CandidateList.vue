@@ -22,7 +22,7 @@
         </h3>
         <p class="text-xl mt-2 text-gray-800">{{ candidate.title }}</p>
 
-        <!-- Date Fields -->
+        <!-- Other Fields -->
         <div class="mt-4 grid grid-cols-3 gap-4 text-lg text-gray-500">
           <div>
             <p><strong>email:</strong> {{ candidate.email }}</p>
@@ -51,12 +51,25 @@
         </button>
       </div>
     </div>
+
+    <!-- Edit Candidate Modal -->
+    <EditCandidateModal
+      v-if="isEditModalOpen"
+      :candidate="selectedCandidate"
+      @close="closeEditModal"
+      @submit="updateCandidate"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useCandidateStore } from "../../stores/candidateStore";
+import EditCandidateModal from "./EditCandidateModal.vue";
+
+// Modal state
+const isEditModalOpen = ref(false); // Modal visibility state
+const selectedCandidate = ref(null); // The candidate selected for editing
 
 // Pinia store
 const candidateStore = useCandidateStore();
@@ -76,4 +89,21 @@ const formatDate = (date) => {
 
 // Fetch candidates on component mount
 onMounted(fetchCandidates);
+
+// Open edit modal and populate with the selected candidate data
+const openEditModal = (candidate) => {
+  selectedCandidate.value = { ...candidate }; // Create a copy to avoid mutating the original data
+  isEditModalOpen.value = true;
+};
+
+// Close the modal
+const closeEditModal = () => {
+  isEditModalOpen.value = false;
+};
+
+// Submit the update candidate form
+const updateCandidate = ({ id, updatedData }) => {
+  candidateStore.updateCandidate(id, updatedData);
+  closeEditModal(); // Close the modal after submission
+};
 </script>
