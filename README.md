@@ -1,33 +1,40 @@
-# vacancy-page-frontend
+# Vacancy Web Page Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+This repo is the frontend of the Vacancy Management application.
 
-## Recommended IDE Setup
+## Technologies
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Vue.js 3
+- Tailwind
+- Pinia
+- TypeScript
+- Zod
+- Axios
 
-## Type Support for `.vue` Imports in TS
+## Prerequisites
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+Make sure you have the following installed:
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
+- Node.js (v16 or later)
+- npm
 
 ## Project Setup
+
+### Install Dependencies
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Run the Code
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+Open your browser and visit http://localhost:5174/ to view the app.
 
-```sh
-npm run build
-```
+### Run Backend Code
+
+To use API's correctly, backend of the project must be running at the same time.
+Visit this page and run Vacancy Wep Page Backend https://github.com/zeynepkaya1/vacancy-page
